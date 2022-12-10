@@ -8,11 +8,10 @@ int main(void)
 
 	InitWindow(screenWidth, screenHeight, "rltest");
 
-	// Texture2D tree = LoadTexture("resources/tree.png");
+	Player player;
 
 	Camera camera;
-	camera.position = { 0.0f, 10.0f, 10.0f };
-	camera.target = { 0.0f, 0.0f, 0.0f };
+	camera.position = player.pos;
 	camera.up = { 0.0f, 1.0f, 0.0f };
 	camera.fovy = 45.0f;
 	camera.projection = CAMERA_PERSPECTIVE;
@@ -21,7 +20,7 @@ int main(void)
 
 	SetTargetFPS(144);
 
-	Player player;
+	SetMousePosition(400, 225);
 
 	while (!WindowShouldClose())
 	{
@@ -31,6 +30,8 @@ int main(void)
 			debug = !debug;
 
 		player.update(delta);
+		camera.position = player.pos;
+		camera.target = player.getCamTarget();
 
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
@@ -46,6 +47,8 @@ int main(void)
 			DrawText(TextFormat("X %.2f", player.getX()), 5, 25, 20, LIME);
 			DrawText(TextFormat("Y %.2f", player.getY()), 5, 45, 20, LIME);
 			DrawText(TextFormat("Z %.2f", player.getZ()), 5, 65, 20, LIME);
+			DrawText(TextFormat("rotX %.2f", player.getRotX()), 5, 85, 20, LIME);
+			DrawText(TextFormat("rotY %.2f", player.getRotY()), 5, 105, 20, LIME);
 		}
 		EndDrawing();
 	}
